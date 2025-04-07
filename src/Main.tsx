@@ -41,9 +41,27 @@ function Char10x16()
 
   const handlePixelClick = (pxId: number, pixelState: boolean) =>
   {
-    // console.log(`byte #${0}; bit #${0}`);
+    // console.log(`pxId: ${pxId}; pixelState: ${pixelState}`);
 
-    console.log(`pxId: ${pxId}; pixelState: ${pixelState}`);
+    const arrayPart = Math.floor((pxId-1) / (10*8));
+    const bytePos = (pxId-1) % 10 + 10 * arrayPart;
+    const bitPos = Math.floor((pxId - 1 - (10*8)*(arrayPart)) / 10);
+
+    // console.log(`byte #${bytePos}; bit #${bitPos}`);
+
+    setCharArray(charArray.map((byte: number, index: number) =>
+    {
+      if (bytePos === index)
+      {
+        if (pixelState === false)
+        {
+          return (byte & ~(1 << bitPos));
+        }
+        return (byte | (1 << bitPos));
+      }
+
+      return byte;
+    }));
   }
 
   const generateTable = () =>

@@ -52,3 +52,23 @@ body
         background-color: #44FF44;
     }
 }
+
+
+.font-table-wrapper
+{
+    padding-top: 10px;
+    padding-bottom: 30px;
+    padding-left: 50px;
+}
+
+.font-table
+{
+    border: 1px solid;
+    border-collapse: collapse;
+
+    th, td
+    {
+        border: 1px solid;
+        padding: 13px 20px;
+    }
+}

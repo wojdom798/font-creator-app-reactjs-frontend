@@ -114,7 +114,7 @@ function Char10x16()
 
     const hexStr = (byte & 0xFF).toString(16).toUpperCase();
 
-    if (byte < 10)
+    if (byte < 16)
     {
       return "0x0" + hexStr;
     }

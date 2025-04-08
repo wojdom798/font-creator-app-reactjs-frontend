@@ -14,3 +14,19 @@ export interface IFontProps
   initialValues: number[] | null;
   onEditCharClick: (charId: number, charData: number[]) => void;
 };
+
+
+export interface IChar10x16Props
+{
+  id: number;
+  initialPixels: number[];
+  onSaveButtonClick: (charId: number, pixelData: number[]) => void;
+  onGoBackButtonClick: () => void;
+};
+
+
+export enum ActiveViewEnum
+{
+  FONT_TABLE = 1,
+  CHARACTER_EDITOR,
+}

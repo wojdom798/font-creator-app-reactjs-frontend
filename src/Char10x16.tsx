@@ -1,16 +1,21 @@
 import React, { useEffect, useState, SyntheticEvent } from "react";
+import { IChar10x16Props } from "./types";
 import { convertByteToHexString, charArrayToString } from "./utils";
 import Pixel from "./Pixel";
 
 
-function Char10x16()
+function Char10x16({
+  id, initialPixels, onGoBackButtonClick, onSaveButtonClick
+}: IChar10x16Props)
 {
   const [charArray, setCharArray] = useState<number[]>([]);
   const [pixelNumbersActive, setPixelNumbersActive] = useState<boolean>(true);
 
   useEffect(() =>
   {
-    setCharArray(Array(10*(16/8)).fill(0) as number[]);
+    // setCharArray(Array(10*(16/8)).fill(0) as number[]);
+    setCharArray(initialPixels);
+
   }, []);
 
 
@@ -83,6 +88,13 @@ function Char10x16()
 
   return (
     <div className="table-wrapper-tmp">
+    <h2>editing character: {id === 32 ? "[space]" : String.fromCharCode(id)}</h2>
+    <button
+      onClick={onGoBackButtonClick}
+    >go back</button>
+    <button
+      onClick={() => console.log(`saving changes (character \'${String.fromCharCode(id)}\')`)}
+    >save</button>
     <div className="button-container">
       <button
         onClick={ () => setPixelNumbersActive(!pixelNumbersActive) }

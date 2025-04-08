@@ -15,7 +15,6 @@ function Char10x16({
   {
     // setCharArray(Array(10*(16/8)).fill(0) as number[]);
     setCharArray(initialPixels);
-
   }, []);
 
 
@@ -55,6 +54,16 @@ function Char10x16({
     {
       for (let j = 0; j < 10; j++)
       {
+        const arrayPart = Math.floor((cellCount-1) / (10*8));
+        const bytePos = (cellCount-1) % 10 + 10 * arrayPart;
+        const bitPos = Math.floor((cellCount - 1 - (10*8)*(arrayPart)) / 10);
+
+        if (i === 0 && j === 0)
+        {
+          console.log(`bytePos: ${bytePos}, bitPos: ${bitPos}`);
+          console.log(charArray[bytePos] & (1 << bitPos));
+        }
+
         currentRow.push(
           <Pixel
             key={cellCount}
@@ -62,6 +71,7 @@ function Char10x16({
             shouldDisplayNumber={pixelNumbersActive}
             // onPixelClick={ (pxId: number, pixelState: boolean) => { console.log(`pixel ${pxId} clicked`) }}
             onPixelClick={handlePixelClick}
+            initialValue={ (charArray[bytePos] & (1 << bitPos)) !== 0 ? true : false }
           />
         );
         cellCount++;

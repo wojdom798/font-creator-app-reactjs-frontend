@@ -5,6 +5,7 @@ export interface IPixelProps
   shouldDisplayNumber: boolean;
   // onPixelClick: (pixelState: boolean) => void;
   onPixelClick: (pxId: number, pixelState: boolean) => void;
+  initialValue?: boolean;
 };
 
 

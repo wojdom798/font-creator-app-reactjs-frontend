@@ -1,13 +1,6 @@
 import React, { useEffect, useState, SyntheticEvent } from "react";
+import { IPixelProps } from "./types";
 
-
-interface IPixelProps
-{
-  id: number;
-  shouldDisplayNumber: boolean;
-  // onPixelClick: (pixelState: boolean) => void;
-  onPixelClick: (pxId: number, pixelState: boolean) => void;
-};
 
 function Pixel({ id, shouldDisplayNumber, onPixelClick }: IPixelProps)
 {

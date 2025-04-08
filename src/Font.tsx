@@ -1,10 +1,29 @@
 import React, { useEffect, useState, SyntheticEvent } from "react";
+import { IFontProps } from "./types";
 import { convertByteToHexString } from "./utils";
 import Char10x16 from "./Char10x16";
 
 
-function Font()
+function Font({ id, initialValues, onEditCharClick }: IFontProps)
 {
+  const [characters, setCharacters] = useState<number[]>([]);
+
+  useEffect(() =>
+  {
+    if (initialValues !== null)
+    {
+      // ...
+    }
+
+    setCharacters(Array((127-32) * 10 * (16/8)).fill(0) as number[]);
+
+  }, []);
+
+  const handleEditCharButtonClick = (ev: SyntheticEvent, charId: number) =>
+  {
+    ev.preventDefault();
+    onEditCharClick(charId, characters.slice(charId-32, charId-32+20));
+  };
 
   const generateFontTableUIRows = () =>
   {
@@ -22,7 +41,8 @@ function Font()
           <td>{ convertByteToHexString(i) }</td>
           <td>
             <button
-              onClick={ () => { console.log("edit button click"); }}
+              // onClick={ () => { console.log("edit button click"); }}
+              onClick={ (ev) => handleEditCharButtonClick(ev, i)}
             >edit</button>
           </td>
         </tr>
@@ -35,6 +55,12 @@ function Font()
   
   return (
     <div className="font-table-wrapper">
+      <button
+        onClick={() => {
+          console.log(`characters.length = ${characters.length}`);
+          console.log(characters);
+        }}
+      >log chars</button>
       <table className="font-table">
         <thead>
           <tr>

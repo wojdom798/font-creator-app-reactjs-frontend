@@ -9,7 +9,14 @@ function Main()
     <div>
       <h1>Main Component</h1>
       {/* <Char10x16 /> */}
-      <Font />
+      <Font
+        id={1}
+        initialValues={null}
+        onEditCharClick={(charId, charData) => {
+          console.log(`char to edit: ${charId}`);
+          console.log(charData);
+        }}
+      />
     </div>
 
   );

@@ -15,16 +15,22 @@ export const convertByteToHexString = (byte: number): string =>
 };
 
 
-export const charArrayToString = (charArray: number[]): string =>
+export const charArrayToString = (charArray: number[], lineBreakEveryNth?: number): string =>
 {
-  let retStr = "{ ";
+  // let retStr = "{ ";
+  let retStr = "";
   let i: number;
 
   for (i = 0; i < charArray.length - 1; i++)
   {
+    if ((lineBreakEveryNth !== undefined) && (i !== 0) && (i % lineBreakEveryNth === 0))
+    {
+      retStr += "\n    ";
+    }
     retStr += convertByteToHexString(charArray[i]) + ", ";
   }
-  retStr += convertByteToHexString(charArray[i]) + " };";
+  // retStr += convertByteToHexString(charArray[i]) + " };";
+  retStr += convertByteToHexString(charArray[i]) + ", ";
 
   return retStr;
 };

@@ -54,11 +54,21 @@ body
 }
 
 
-.font-table-wrapper
+.font_main-wrapper
 {
     padding-top: 10px;
     padding-bottom: 30px;
     padding-left: 50px;
+}
+
+
+.font-table-wrapper
+{
+    display: inline-block;
+    // padding-top: 10px;
+    // padding-bottom: 30px;
+    // padding-left: 50px;
+    margin-right: 40px;
 }
 
 .font-table
@@ -70,5 +80,15 @@ body
     {
         border: 1px solid;
         padding: 13px 20px;
+    }
+}
+
+.font_output-container
+{
+    display: inline-block;
+
+    textarea
+    {
+        display: block;
     }
 }

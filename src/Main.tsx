@@ -9,17 +9,28 @@ function Main()
   const [activeView, setActiveView] = useState<ActiveViewEnum>(ActiveViewEnum.FONT_TABLE);
   const [charToEditId, setCharToEditId] = useState<number>(0);
   const [charToEditPixelData, setCharToEditPixelData] = useState<number[]>([]);
+  const [wasCharEdited, setWasCharEdited] = useState<boolean>(false);
 
 
   const handleEditCharClick = (charId: number, charData: number[]) =>
   {
-    charData = [ 0x03, 0x03, 0x03, 0x83, 0xC3, 0x63, 0x33, 0x1B, 0x0F, 0x07,
-      0x60, 0xE0, 0xC0, 0xC1, 0xC1, 0xC1, 0xC3, 0xC3, 0xFF, 0x7E ];
-
+    // charData = [ 0x03, 0x03, 0x03, 0x83, 0xC3, 0x63, 0x33, 0x1B, 0x0F, 0x07,
+    //   0x60, 0xE0, 0xC0, 0xC1, 0xC1, 0xC1, 0xC3, 0xC3, 0xFF, 0x7E ];
+    
+    setWasCharEdited(false);
     setCharToEditId(charId);
     setCharToEditPixelData(charData);
     setActiveView(ActiveViewEnum.CHARACTER_EDITOR);
   }
+
+
+  const handleApplyCharChanges = (pixelData: number[]) =>
+  {
+    setCharToEditPixelData(pixelData);
+    setWasCharEdited(true);
+    // console.log("handleApplyCharChanges (Main)");
+    // console.log(pixelData);
+  };
 
   const renderActiveView = (view: ActiveViewEnum) =>
   {
@@ -34,6 +45,9 @@ function Main()
           //   console.log(charData);
           // }}
           onEditCharClick={handleEditCharClick}
+          editedChar={
+            wasCharEdited ? { charId: charToEditId, charArray: charToEditPixelData} : null
+          }
         />
       );
     }
@@ -43,7 +57,7 @@ function Main()
         <Char10x16
           id={charToEditId}
           initialPixels={charToEditPixelData}
-          onSaveButtonClick={() => console.log("save char button click")}
+          onSaveButtonClick={(charId, pixelData) => handleApplyCharChanges(pixelData)}
           onGoBackButtonClick={() => setActiveView(ActiveViewEnum.FONT_TABLE)}
         />
       );

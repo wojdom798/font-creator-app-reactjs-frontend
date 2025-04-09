@@ -96,6 +96,11 @@ function Char10x16({
   };
 
 
+  const handleApplyChangesButtonClick = (ev: SyntheticEvent) =>
+  {
+    onSaveButtonClick(id, charArray);
+  };
+
   return (
     <div className="table-wrapper-tmp">
     <h2>editing character: {id === 32 ? "[space]" : String.fromCharCode(id)}</h2>
@@ -103,7 +108,7 @@ function Char10x16({
       onClick={onGoBackButtonClick}
     >go back</button>
     <button
-      onClick={() => console.log(`saving changes (character \'${String.fromCharCode(id)}\')`)}
+      onClick={handleApplyChangesButtonClick}
     >save</button>
     <div className="button-container">
       <button

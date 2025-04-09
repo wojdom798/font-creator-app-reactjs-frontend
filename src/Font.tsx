@@ -4,7 +4,7 @@ import { convertByteToHexString, charArrayToString } from "./utils";
 import Char10x16 from "./Char10x16";
 
 
-function Font({ id, initialValues, onEditCharClick }: IFontProps)
+function Font({ id, initialValues, onEditCharClick, editedChar }: IFontProps)
 {
   const [characters, setCharacters] = useState<number[]>([]);
   const [outputStr, setOutputStr] = useState<string>("");
@@ -12,14 +12,26 @@ function Font({ id, initialValues, onEditCharClick }: IFontProps)
 
   useEffect(() =>
   {
+    const fontArray = Array((127-32) * 10 * (16/8)).fill(0) as number[];
+
     if (initialValues !== null)
     {
       // ...
     }
 
-    setCharacters(Array((127-32) * 10 * (16/8)).fill(0) as number[]);
+    if (editedChar !== null)
+    {
+      console.log("edited charId = " + editedChar.charId);
+      for (let i = 0; i < 20; i++)
+      {
+        fontArray[(editedChar.charId-32)*20 + i] = editedChar.charArray[i];
+        console.log(`characters[${(editedChar.charId-32)*20 + i}] = ${editedChar.charArray[i]}`);
+      }
+    }
 
-  }, []);
+    setCharacters(fontArray);
+
+  }, [editedChar]);
 
   const handleEditCharButtonClick = (ev: SyntheticEvent, charId: number) =>
   {
@@ -104,7 +116,7 @@ function Font({ id, initialValues, onEditCharClick }: IFontProps)
         >convert to C-like array</button>
         <button
           onClick={ () => setOutputStr("") }
-        >clean</button>
+        >clear</button>
         <textarea
           cols={70}
           rows={50}

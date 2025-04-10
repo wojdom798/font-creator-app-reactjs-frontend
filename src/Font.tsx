@@ -21,11 +21,11 @@ function Font({ id, initialValues, onEditCharClick, editedChar }: IFontProps)
 
     if (editedChar !== null)
     {
-      console.log("edited charId = " + editedChar.charId);
+      // console.log("edited charId = " + editedChar.charId);
       for (let i = 0; i < 20; i++)
       {
         fontArray[(editedChar.charId-32)*20 + i] = editedChar.charArray[i];
-        console.log(`characters[${(editedChar.charId-32)*20 + i}] = ${editedChar.charArray[i]}`);
+        // console.log(`characters[${(editedChar.charId-32)*20 + i}] = ${editedChar.charArray[i]}`);
       }
     }
 
@@ -36,7 +36,7 @@ function Font({ id, initialValues, onEditCharClick, editedChar }: IFontProps)
   const handleEditCharButtonClick = (ev: SyntheticEvent, charId: number) =>
   {
     ev.preventDefault();
-    onEditCharClick(charId, characters.slice(charId-32, charId-32+20));
+    onEditCharClick(charId, characters.slice((charId-32)*20, (charId-32)*20+20));
   };
 
   const generateFontTableUIRows = () =>
@@ -76,7 +76,7 @@ function Font({ id, initialValues, onEditCharClick, editedChar }: IFontProps)
     for (let i = 32; i < 127; i++)
     {
       outStr += `    // \'${String.fromCharCode(i)}\'\n`;
-      outStr += "    " + charArrayToString(characters.slice(i-32, i-32+20), 10) + "\n";
+      outStr += "    " + charArrayToString(characters.slice((i-32)*20, (i-32)*20+20), 10) + "\n";
     }
 
     outStr += "};"

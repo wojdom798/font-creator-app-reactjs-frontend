@@ -12,8 +12,9 @@ export interface IPixelProps
 export interface IFontProps
 {
   id: number;
+  fontCharArray: number[];
   initialValues: number[] | null;
-  onEditCharClick: (charId: number, charData: number[]) => void;
+  onEditCharClick: (charId: number) => void;
   editedChar: { charId: number, charArray: number[] } | null
 };
 

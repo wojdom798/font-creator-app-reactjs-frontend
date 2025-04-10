@@ -6,26 +6,50 @@ import Font from "./Font";
 
 function Main()
 {
+  // Global State
+  const [fontCharArray, setFontCharArray] = useState<number[]>([]);
+  
+  // Local State
   const [activeView, setActiveView] = useState<ActiveViewEnum>(ActiveViewEnum.FONT_TABLE);
   const [charToEditId, setCharToEditId] = useState<number>(0);
   const [charToEditPixelData, setCharToEditPixelData] = useState<number[]>([]);
   const [wasCharEdited, setWasCharEdited] = useState<boolean>(false);
 
 
-  const handleEditCharClick = (charId: number, charData: number[]) =>
+  useEffect(() =>
+  {
+    const fontArray = Array((127-32) * 10 * (16/8)).fill(0) as number[];
+
+    setFontCharArray(fontArray);
+
+  }, []);
+
+
+  const handleEditCharClick = (charId: number) =>
   {
     // charData = [ 0x03, 0x03, 0x03, 0x83, 0xC3, 0x63, 0x33, 0x1B, 0x0F, 0x07,
     //   0x60, 0xE0, 0xC0, 0xC1, 0xC1, 0xC1, 0xC3, 0xC3, 0xFF, 0x7E ];
     
     setWasCharEdited(false);
     setCharToEditId(charId);
-    setCharToEditPixelData(charData);
     setActiveView(ActiveViewEnum.CHARACTER_EDITOR);
   }
 
 
   const handleApplyCharChanges = (pixelData: number[]) =>
   {
+    console.log(fontCharArray);
+
+    const fontCharArrayCopy = fontCharArray.slice(0, fontCharArray.length);
+
+    for (let i = 0; i < 20; i++)
+    {
+      fontCharArrayCopy[(charToEditId-32)*20 + i] = pixelData[i];
+    }
+
+    console.log(fontCharArrayCopy);
+    setFontCharArray(fontCharArrayCopy);
+
     setCharToEditPixelData(pixelData);
     setWasCharEdited(true);
     // console.log("handleApplyCharChanges (Main)");
@@ -39,6 +63,7 @@ function Main()
       return (
         <Font
           id={1}
+          fontCharArray={fontCharArray}
           initialValues={null}
           // onEditCharClick={(charId, charData) => {
           //   console.log(`char to edit: ${charId}`);
@@ -56,7 +81,8 @@ function Main()
       return (
         <Char10x16
           id={charToEditId}
-          initialPixels={charToEditPixelData}
+          // initialPixels={charToEditPixelData}
+          initialPixels={fontCharArray.slice((charToEditId-32)*20, (charToEditId-32)*20+20)}
           onSaveButtonClick={(charId, pixelData) => handleApplyCharChanges(pixelData)}
           onGoBackButtonClick={() => setActiveView(ActiveViewEnum.FONT_TABLE)}
         />

@@ -4,39 +4,20 @@ import { convertByteToHexString, charArrayToString } from "./utils";
 import Char10x16 from "./Char10x16";
 
 
-function Font({ id, initialValues, onEditCharClick, editedChar }: IFontProps)
+function Font({ id, fontCharArray, initialValues, onEditCharClick, editedChar }: IFontProps)
 {
-  const [characters, setCharacters] = useState<number[]>([]);
   const [outputStr, setOutputStr] = useState<string>("");
   const [fontName, setFontName] = useState<string>("asciiFont1");
 
   useEffect(() =>
   {
-    const fontArray = Array((127-32) * 10 * (16/8)).fill(0) as number[];
-
-    if (initialValues !== null)
-    {
-      // ...
-    }
-
-    if (editedChar !== null)
-    {
-      // console.log("edited charId = " + editedChar.charId);
-      for (let i = 0; i < 20; i++)
-      {
-        fontArray[(editedChar.charId-32)*20 + i] = editedChar.charArray[i];
-        // console.log(`characters[${(editedChar.charId-32)*20 + i}] = ${editedChar.charArray[i]}`);
-      }
-    }
-
-    setCharacters(fontArray);
 
   }, [editedChar]);
 
   const handleEditCharButtonClick = (ev: SyntheticEvent, charId: number) =>
   {
     ev.preventDefault();
-    onEditCharClick(charId, characters.slice((charId-32)*20, (charId-32)*20+20));
+    onEditCharClick(charId);
   };
 
   const generateFontTableUIRows = () =>
@@ -76,7 +57,7 @@ function Font({ id, initialValues, onEditCharClick, editedChar }: IFontProps)
     for (let i = 32; i < 127; i++)
     {
       outStr += `    // \'${String.fromCharCode(i)}\'\n`;
-      outStr += "    " + charArrayToString(characters.slice((i-32)*20, (i-32)*20+20), 10) + "\n";
+      outStr += "    " + charArrayToString(fontCharArray.slice((i-32)*20, (i-32)*20+20), 10) + "\n";
     }
 
     outStr += "};"
@@ -90,8 +71,8 @@ function Font({ id, initialValues, onEditCharClick, editedChar }: IFontProps)
       <div className="font-table-wrapper">
         <button
           onClick={() => {
-            console.log(`characters.length = ${characters.length}`);
-            console.log(characters);
+            console.log(`characters.length = ${fontCharArray.length}`);
+            console.log(fontCharArray);
           }}
         >log chars</button>
         <table className="font-table">

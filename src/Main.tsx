@@ -73,6 +73,7 @@ function Main()
           editedChar={
             wasCharEdited ? { charId: charToEditId, charArray: charToEditPixelData} : null
           }
+          onLoadFontFromJson={(chars) => setFontCharArray(chars)}
         />
       );
     }

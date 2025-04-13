@@ -15,7 +15,8 @@ export interface IFontProps
   fontCharArray: number[];
   initialValues: number[] | null;
   onEditCharClick: (charId: number) => void;
-  editedChar: { charId: number, charArray: number[] } | null
+  editedChar: { charId: number, charArray: number[] } | null;
+  onLoadFontFromJson: (charData: number[]) => void;
 };
 
 

@@ -4,7 +4,9 @@ import { convertByteToHexString, charArrayToString } from "./utils";
 import Char10x16 from "./Char10x16";
 
 
-function Font({ id, fontCharArray, initialValues, onEditCharClick, editedChar }: IFontProps)
+function Font({
+  id, fontCharArray, initialValues, onEditCharClick, editedChar, onLoadFontFromJson
+}: IFontProps)
 {
   const [outputStr, setOutputStr] = useState<string>("");
   const [fontName, setFontName] = useState<string>("asciiFont1");
@@ -65,6 +67,30 @@ function Font({ id, fontCharArray, initialValues, onEditCharClick, editedChar }:
     setOutputStr(outStr);
   };
 
+  const handleConvertToJson = (ev: SyntheticEvent) =>
+  {
+    ev.preventDefault();
+
+    const header = {
+      name: fontName,
+      size: "10x16"
+    };
+
+    setOutputStr(JSON.stringify({
+      header: header,
+      data: fontCharArray
+    }));
+  };
+
+  const handleLoadFontFromJson = (ev: SyntheticEvent) =>
+  {
+    ev.preventDefault();
+
+    // console.log(outputStr);
+
+    onLoadFontFromJson(JSON.parse(outputStr).data as number[]);
+  };
+
   
   return (
     <div className="font_main-wrapper">
@@ -96,13 +122,20 @@ function Font({ id, fontCharArray, initialValues, onEditCharClick, editedChar }:
           onClick={handleConvertToCArrrayString}
         >convert to C-like array</button>
         <button
+          onClick={handleConvertToJson}
+        >convert font to JSON</button>
+        <button
+          onClick={handleLoadFontFromJson}
+        >load from JSON</button>
+        <button
           onClick={ () => setOutputStr("") }
         >clear</button>
         <textarea
           cols={70}
           rows={50}
           value={outputStr}
-          readOnly={true}
+          readOnly={false}
+          onChange={(ev: SyntheticEvent) => setOutputStr((ev.target as HTMLInputElement).value)}
         ></textarea>
       </div>
     </div>
